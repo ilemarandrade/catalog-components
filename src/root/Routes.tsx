@@ -3,6 +3,7 @@ import { Redirect, Route } from "react-router-dom";
 import MoviesProvider from "../providers/MovieProviders";
 import ListMoviesSortables from "../pages/LIstMoviesSortable";
 import UploadFile from "../pages/UploadFile";
+import ShowComponentToDate from "../pages/ShowComponentToDates";
 
 const Routes = () => (
   <section>
@@ -16,6 +17,9 @@ const Routes = () => (
     </MoviesProvider>
     <Route path="/component-to-upload-file">
       <UploadFile />
+    </Route>
+    <Route path="/component-to-dates">
+      <ShowComponentToDate />
     </Route>
     {/* <Redirect path="/" to="/component-to-show-elements-list" /> */}
   </section>
