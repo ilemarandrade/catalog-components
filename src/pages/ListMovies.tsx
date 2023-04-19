@@ -1,17 +1,17 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo } from "react";
 import MoviePoster from "../components/MoviePoster";
-import useGetMovies from "../hooks/api/useGetMovies";
 import { Grid } from "@mui/material";
 import ShowPaginatedItems from "../components/ShowPaginatedItems";
+import MainLayout from "../layout/MainLayout";
+import { useMoviesProviderState } from "../contexts/MoviesContext";
 
 const ListMovies = () => {
-  const [shouldSendRequest, setShouldSendRequest] = useState(false);
-  const { getMovies, data, isLoading, totalPages } = useGetMovies();
+  const { movies, totalPages, getMovies, isLoading } = useMoviesProviderState();
 
   const pelis = useMemo(
     () =>
-      data?.length
-        ? data.map((movie) => {
+      movies?.length
+        ? movies.map((movie) => {
             return (
               <Fragment key={movie.id}>
                 {movie.poster_path && (
@@ -23,32 +23,22 @@ const ListMovies = () => {
             );
           })
         : null,
-    [data]
+    [movies]
   );
-
-  useEffect(() => {
-    setShouldSendRequest(true);
-  }, []);
-
-  useEffect(() => {
-    if (shouldSendRequest) {
-      getMovies();
-    }
-  }, [getMovies, shouldSendRequest]);
 
   const handlePages = (page: number) => {
     getMovies(page);
   };
 
   return (
-    <>
+    <MainLayout title="1-Componente de lista de elementos con paginador">
       {isLoading && <div>Loading</div>}
       <ShowPaginatedItems count={totalPages} onChange={handlePages}>
         <Grid spacing={4} container>
           {pelis}
         </Grid>
       </ShowPaginatedItems>
-    </>
+    </MainLayout>
   );
 };
 export default ListMovies;
