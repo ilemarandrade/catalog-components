@@ -27,12 +27,15 @@ const MoviePoster = ({ movie }: IMoviePoster) => {
           textOverflow: "ellipsis",
           overflow: "hidden",
           whiteSpace: "nowrap",
+          display: { xs: "none" },
         }}
       >
         {movie.title}
       </Typography>
       <Poster alt={movie.title} src={`${ROOT_IMAGE}${movie.poster_path}`} />
-      <Typography align="center">({movie.release_date})</Typography>
+      <Typography align="center" sx={{ display: { xs: "none" } }}>
+        ({movie.release_date})
+      </Typography>
     </ContainerMovie>
   );
 };
