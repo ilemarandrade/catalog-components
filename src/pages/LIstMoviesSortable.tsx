@@ -6,6 +6,7 @@ import MoviePoster from "../components/MoviePoster";
 import { IMovie } from "../models/movie";
 import SortableList from "../components/SortableList";
 import MainLayout from "../layout/MainLayout";
+import listComponents from "../constants/listComponents";
 
 const ListMoviesSortables = () => {
   const { movies } = useMoviesProviderState();
@@ -35,7 +36,7 @@ const ListMoviesSortables = () => {
     );
   };
   return (
-    <MainLayout title="-5 Componente para reordenar listas">
+    <MainLayout title={listComponents.sortableList.title}>
       <SortableList onSortEnd={onSortEnd} ContainerToList={ContainerToList}>
         {sortMovies.map((movie) => (
           <Fragment key={movie.id}>

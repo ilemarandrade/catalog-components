@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import ShowPaginatedItems from "../components/ShowPaginatedItems";
 import MainLayout from "../layout/MainLayout";
 import { useMoviesProviderState } from "../contexts/MoviesContext";
+import listComponents from "../constants/listComponents";
 
 const ListMovies = () => {
   const { movies, totalPages, getMovies, isLoading } = useMoviesProviderState();
@@ -31,7 +32,7 @@ const ListMovies = () => {
   };
 
   return (
-    <MainLayout title="1-Componente de lista de elementos con paginador">
+    <MainLayout title={listComponents.showPaginateItems.title}>
       {isLoading && <div>Loading</div>}
       <ShowPaginatedItems count={totalPages} onChange={handlePages}>
         <Grid spacing={4} container>

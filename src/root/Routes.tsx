@@ -4,22 +4,27 @@ import MoviesProvider from "../providers/MovieProviders";
 import ListMoviesSortables from "../pages/LIstMoviesSortable";
 import UploadFile from "../pages/UploadFile";
 import ShowComponentToDate from "../pages/ShowComponentToDates";
+import ShowComponentBarChart from "../pages/ShowComponentBarChart";
+import listComponents from "../constants/listComponents";
 
 const Routes = () => (
   <section>
     <MoviesProvider>
-      <Route path="/component-to-show-elements-list">
+      <Route path={listComponents.showPaginateItems.path}>
         <ListMovies />
       </Route>
-      <Route path="/component-to-modify-elements-list">
+      <Route path={listComponents.sortableList.path}>
         <ListMoviesSortables />
       </Route>
     </MoviesProvider>
-    <Route path="/component-to-upload-file">
+    <Route path={listComponents.uploadFile.path}>
       <UploadFile />
     </Route>
-    <Route path="/component-to-dates">
+    <Route path={listComponents.datePicker.path}>
       <ShowComponentToDate />
+    </Route>
+    <Route path={listComponents.barChart.path}>
+      <ShowComponentBarChart />
     </Route>
     {/* <Redirect path="/" to="/component-to-show-elements-list" /> */}
   </section>

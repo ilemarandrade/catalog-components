@@ -9,6 +9,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import listComponents from "../constants/listComponents";
 
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState<FileList | undefined>(); // file selected
@@ -56,7 +57,7 @@ const UploadFile = () => {
   };
 
   return (
-    <MainLayout title="-3 Componente para subir archivos">
+    <MainLayout title={listComponents.uploadFile.title}>
       <Grid container xs={12} sm={10} md={6}>
         {currentFile && (
           <Box mb={2} display="flex" alignItems="center" width="100%">

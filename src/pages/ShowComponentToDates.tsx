@@ -3,6 +3,7 @@ import DateTimePickerWithTimezone from "../components/DateTimePickerWithTimezone
 import MainLayout from "../layout/MainLayout";
 import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
+import listComponents from "../constants/listComponents";
 
 const ShowComponentToDate = () => {
   const [date, setDate] = useState<Dayjs | undefined>();
@@ -12,7 +13,7 @@ const ShowComponentToDate = () => {
   };
 
   return (
-    <MainLayout title="-4 Componente para manejo de fechas">
+    <MainLayout title={listComponents.datePicker.title}>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           {date && (
