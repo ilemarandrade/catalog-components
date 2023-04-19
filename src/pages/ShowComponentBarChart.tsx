@@ -87,6 +87,12 @@ const ShowComponentBarChart = () => {
               <Button
                 key={`button-${label}`}
                 onClick={() => handleChangeOfDataKeyY(label)}
+                sx={{
+                  backgroundColor: (theme) =>
+                    label !== selectedDataKeyY
+                      ? ""
+                      : theme.palette.primary.dark,
+                }}
               >
                 {label}
               </Button>
