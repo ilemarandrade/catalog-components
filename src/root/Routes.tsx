@@ -1,7 +1,7 @@
 import ListMovies from "../pages/ListMovies";
 import { Redirect, Route } from "react-router-dom";
 import MoviesProvider from "../providers/MovieProviders";
-import ListMoviesSortables from "../pages/LIstMoviesSortable";
+import ListMoviesSortables from "../pages/ListMoviesSortable";
 import UploadFile from "../pages/UploadFile";
 import ShowComponentToDate from "../pages/ShowComponentToDates";
 import ShowComponentBarChart from "../pages/ShowComponentBarChart";
@@ -26,7 +26,7 @@ const Routes = () => (
     <Route path={listComponents.barChart.path}>
       <ShowComponentBarChart />
     </Route>
-    {/* <Redirect path="/" to="/component-to-show-elements-list" /> */}
+    <Redirect exact path="/" to={listComponents.showPaginateItems.path} />
   </section>
 );
 
