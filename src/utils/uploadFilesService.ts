@@ -19,4 +19,6 @@ class UploadFilesService {
   }
 }
 
-export default new UploadFilesService();
+const newUploadFilesService = new UploadFilesService();
+
+export default newUploadFilesService;
