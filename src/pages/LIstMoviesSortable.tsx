@@ -1,7 +1,7 @@
-import React, { Fragment, ReactNode, useEffect, useState } from "react";
+import { Fragment, ReactNode, useEffect, useState } from "react";
 import { arrayMoveImmutable } from "array-move";
 import { useMoviesProviderState } from "../contexts/MoviesContext";
-import { Grid } from "@mui/material";
+import { Grid, Theme, useMediaQuery, useTheme } from "@mui/material";
 import MoviePoster from "../components/MoviePoster";
 import { IMovie } from "../models/movie";
 import SortableList from "../components/SortableList";
@@ -11,6 +11,8 @@ import listComponents from "../constants/listComponents";
 const ListMoviesSortables = () => {
   const { movies } = useMoviesProviderState();
   const [sortMovies, setSortMovies] = useState<IMovie[] | []>([]);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     setSortMovies(movies);
@@ -30,11 +32,12 @@ const ListMoviesSortables = () => {
 
   const ContainerToList = ({ children }: { children: ReactNode }) => {
     return (
-      <Grid spacing={4} container component="ul">
+      <Grid spacing={isMobile ? 2 : 4} container component="ul" sx={{ p: 0 }}>
         {children}
       </Grid>
     );
   };
+
   return (
     <MainLayout title={listComponents.sortableList.title}>
       <SortableList onSortEnd={onSortEnd} ContainerToList={ContainerToList}>
@@ -43,7 +46,7 @@ const ListMoviesSortables = () => {
             {movie.poster_path && (
               <Grid
                 item
-                xs={12}
+                xs={4}
                 sm={4}
                 md={3}
                 lg={2}
