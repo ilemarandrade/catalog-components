@@ -18,6 +18,7 @@ import { Collapse } from "@mui/material";
 import CodeIcon from "@mui/icons-material/Code";
 import listComponents from "../constants/listComponents";
 import { Link } from "react-router-dom";
+import logo from "../assets/img/3dLink.png";
 
 const drawerWidth = 240;
 
@@ -41,7 +42,9 @@ const MainLayout = ({ window, children, title }: IMainLayout) => {
 
   const drawer = (
     <div>
-      <Toolbar />
+      <Toolbar>
+        <Box src={logo} alt="logo" component="img" sx={{ width: "70%" }} />
+      </Toolbar>
       <Divider />
       <List>
         <ListItemButton onClick={handleClick}>
@@ -56,7 +59,12 @@ const MainLayout = ({ window, children, title }: IMainLayout) => {
             {Object.keys(listComponents).map((nameKey) => {
               const { title, path } = listComponents[nameKey];
               return (
-                <ListItemButton sx={{ pl: 4 }} component={Link} to={path}>
+                <ListItemButton
+                  key={title}
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={path}
+                >
                   <ListItemText primary={title} />
                 </ListItemButton>
               );
