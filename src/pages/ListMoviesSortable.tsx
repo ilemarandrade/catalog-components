@@ -1,15 +1,16 @@
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import { arrayMoveImmutable } from "array-move";
 import { useMoviesProviderState } from "../contexts/MoviesContext";
-import { Grid, Theme, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import MoviePoster from "../components/MoviePoster";
 import { IMovie } from "../models/movie";
 import SortableList from "../components/SortableList";
 import MainLayout from "../layout/MainLayout";
 import listComponents from "../constants/listComponents";
+import Loading from "../components/Loading";
 
 const ListMoviesSortables = () => {
-  const { movies } = useMoviesProviderState();
+  const { movies, isLoading } = useMoviesProviderState();
   const [sortMovies, setSortMovies] = useState<IMovie[] | []>([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -40,6 +41,7 @@ const ListMoviesSortables = () => {
 
   return (
     <MainLayout title={listComponents.sortableList.title}>
+      <Loading open={isLoading} />
       <SortableList onSortEnd={onSortEnd} ContainerToList={ContainerToList}>
         {sortMovies.map((movie) => (
           <Fragment key={movie.id}>
