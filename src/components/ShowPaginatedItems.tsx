@@ -32,6 +32,7 @@ const ShowPaginatedItems = ({
         onChange={(event: React.ChangeEvent<unknown>, page: number) =>
           onChange(page)
         }
+        sx={{ mt: 3 }}
         siblingCount={isMobile ? 0 : 1}
       />
     </Grid>
