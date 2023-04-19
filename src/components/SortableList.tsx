@@ -59,7 +59,13 @@ const SortableList = ({
 }: ISortableContainer) => {
   return (
     <SortableContainerOwn
-      {...{ onSortEnd, axis: "xy", ContainerToList, ...config }}
+      {...{
+        onSortEnd,
+        axis: "xy",
+        ContainerToList,
+        pressDelay: 400,
+        ...config,
+      }}
     >
       {children.map((item, index) => {
         return (
