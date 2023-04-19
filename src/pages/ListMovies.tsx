@@ -37,11 +37,13 @@ const ListMovies = () => {
   return (
     <MainLayout title={listComponents.showPaginateItems.title}>
       <Loading open={isLoading} />
-      <ShowPaginatedItems count={totalPages} onChange={handlePages}>
-        <Grid spacing={isMobile ? 2 : 4} container>
-          {pelis}
-        </Grid>
-      </ShowPaginatedItems>
+      {!isLoading && (
+        <ShowPaginatedItems count={totalPages} onChange={handlePages}>
+          <Grid spacing={isMobile ? 2 : 4} container>
+            {pelis}
+          </Grid>
+        </ShowPaginatedItems>
+      )}
     </MainLayout>
   );
 };
