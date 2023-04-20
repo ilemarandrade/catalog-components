@@ -16,6 +16,8 @@ import MainLayout from "../layout/MainLayout";
 import listComponents from "../constants/listComponents";
 import products, { Product, Products } from "../constants/products";
 
+const TIME_TO_REFRESH_DATA = 3000;
+
 type typeDataKeyY = "stock" | "vendidos" | "total vendidos";
 
 const specificData = {
@@ -95,13 +97,15 @@ const ShowComponentBarChart = () => {
     setSpecificDataCurrent(field);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInputRadio = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setValueRadio((event.target as HTMLInputElement).value);
   };
 
   useEffect(() => {
     // Call the updateSoldQuantity function every three seconds
-    const interval = setInterval(updateSoldQuantity, 3000);
+    const interval = setInterval(updateSoldQuantity, TIME_TO_REFRESH_DATA);
     // Cleanup function to clear the interval when the component unmounts
     return () => clearInterval(interval);
   }, [updateSoldQuantity]);
@@ -125,7 +129,11 @@ const ShowComponentBarChart = () => {
         <Grid item>
           <FormControl sx={{ m: 1 }} component="fieldset" variant="standard">
             <FormLabel component="label">Ordenar de:</FormLabel>
-            <RadioGroup row onChange={handleChange} value={valueRadio}>
+            <RadioGroup
+              row
+              onChange={handleChangeInputRadio}
+              value={valueRadio}
+            >
               <FormControlLabel
                 control={<Radio value="major_to_minor" />}
                 label="Mayor a menor"
