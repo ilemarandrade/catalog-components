@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useState } from "react";
 import MoviePoster from "../components/MoviePoster";
-import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Theme, useMediaQuery } from "@mui/material";
 import ShowPaginatedItems from "../components/ShowPaginatedItems";
 import MainLayout from "../layout/MainLayout";
 import { useMoviesProviderState } from "../contexts/MoviesContext";
@@ -8,8 +8,9 @@ import listComponents from "../constants/listComponents";
 import Loading from "../components/Loading";
 
 const ListMovies = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
   const { movies, totalPages, getMovies, isLoading } = useMoviesProviderState();
   const [page, setPage] = useState(1);
 

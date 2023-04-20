@@ -1,3 +1,4 @@
+import { Theme, useMediaQuery } from "@mui/material";
 import React, { Fragment } from "react";
 import {
   SortableContainer,
@@ -57,13 +58,17 @@ const SortableList = ({
   ContainerToList,
   ...config
 }: ISortableContainer) => {
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
+
   return (
     <SortableContainerOwn
       {...{
         onSortEnd,
         axis: "xy",
         ContainerToList,
-        pressDelay: 400,
+        pressDelay: isMobile ? 400 : 0,
         ...config,
       }}
     >
