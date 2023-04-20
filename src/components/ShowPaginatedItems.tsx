@@ -1,25 +1,28 @@
-import {
-  Grid,
-  Pagination,
-  Theme,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Grid, Pagination, useMediaQuery, useTheme } from "@mui/material";
 import { ReactNode } from "react";
 
 interface IShowPaginatedItems {
   count: number;
   children: ReactNode;
   onChange: (page: number) => void;
+  page: number;
 }
 
 const ShowPaginatedItems = ({
   count,
   children,
   onChange,
+  page,
 }: IShowPaginatedItems) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleOnChange = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
+    onChange(newPage);
+  };
 
   return (
     <Grid container justifyContent="center">
@@ -29,11 +32,10 @@ const ShowPaginatedItems = ({
         count={count}
         color="primary"
         justifyContent="center"
-        onChange={(event: React.ChangeEvent<unknown>, page: number) =>
-          onChange(page)
-        }
+        onChange={handleOnChange}
         sx={{ mt: 3 }}
         siblingCount={isMobile ? 0 : 1}
+        page={page}
       />
     </Grid>
   );

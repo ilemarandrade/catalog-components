@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from "react";
+import { Fragment, useMemo, useState } from "react";
 import MoviePoster from "../components/MoviePoster";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import ShowPaginatedItems from "../components/ShowPaginatedItems";
@@ -11,6 +11,7 @@ const ListMovies = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { movies, totalPages, getMovies, isLoading } = useMoviesProviderState();
+  const [page, setPage] = useState(1);
 
   const pelis = useMemo(
     () =>
@@ -30,15 +31,20 @@ const ListMovies = () => {
     [movies]
   );
 
-  const handlePages = (page: number) => {
-    getMovies(page);
+  const handlePages = (newPage: number) => {
+    getMovies(newPage);
+    setPage(newPage);
   };
 
   return (
     <MainLayout title={listComponents.showPaginateItems.title}>
       <Loading open={isLoading} />
       {!isLoading && (
-        <ShowPaginatedItems count={totalPages} onChange={handlePages}>
+        <ShowPaginatedItems
+          count={totalPages}
+          onChange={handlePages}
+          page={page}
+        >
           <Grid spacing={isMobile ? 2 : 4} container>
             {pelis}
           </Grid>
