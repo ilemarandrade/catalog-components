@@ -26,6 +26,7 @@ const UploadFile = () => {
     if (event.target.files) {
       setCurrentFile(undefined);
       setMessage("");
+      setProgress(0);
       setSelectedFile(event.target.files);
     }
   };
@@ -49,7 +50,7 @@ const UploadFile = () => {
         })
         .catch(() => {
           setMessage(
-            "*No se logro cargar el archivo porque no estamos conectados a una api con ese tipo de servicio!"
+            "*Esta funcionalidad es solo un ejemplo no se carga el archivo al servidor porque no estamos conectados a una api con ese tipo de servicio!"
           );
           setIsError(true);
         });
@@ -111,7 +112,7 @@ const UploadFile = () => {
               color="primary"
               variant="contained"
               component="span"
-              disabled={!selectedFile}
+              disabled={!selectedFile || progress === 100}
               onClick={upload}
               fullWidth
             >
