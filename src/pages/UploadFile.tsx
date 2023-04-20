@@ -58,7 +58,7 @@ const UploadFile = () => {
 
   return (
     <MainLayout title={listComponents.uploadFile.title}>
-      <Grid container xs={12} sm={12} md={8}>
+      <Grid item container xs={12} sm={12} md={8}>
         {currentFile && (
           <Box mb={2} display="flex" alignItems="center" width="100%">
             <Box width="100%" mr={1}>

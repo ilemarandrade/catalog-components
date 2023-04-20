@@ -74,11 +74,9 @@ const SortableList = ({
     >
       {children.map((item, index) => {
         return (
-          <>
-            <SortableItem key={`item-${item.key}`} index={index}>
-              {item}
-            </SortableItem>
-          </>
+          <SortableItem key={`item-${item.key}`} index={index}>
+            {item}
+          </SortableItem>
         );
       })}
     </SortableContainerOwn>
