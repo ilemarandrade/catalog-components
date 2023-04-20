@@ -16,26 +16,28 @@ const ShowComponentBarChart = lazy(
 
 const Routes = () => (
   <section>
-    <Suspense fallback={<Loading open />}>
-      <MoviesProvider>
+    <MoviesProvider>
+      <Suspense fallback={<Loading open />}>
         <Route path={listComponents.showPaginateItems.path}>
           <ListMovies />
         </Route>
         <Route path={listComponents.sortableList.path}>
           <ListMoviesSortables />
         </Route>
-      </MoviesProvider>
-      <Route path={listComponents.uploadFile.path}>
-        <UploadFile />
-      </Route>
-      <Route path={listComponents.datePicker.path}>
-        <ShowComponentToDates />
-      </Route>
-      <Route path={listComponents.barChart.path}>
-        <ShowComponentBarChart />
-      </Route>
-      <Redirect exact path="/" to={listComponents.showPaginateItems.path} />
-    </Suspense>
+        <Route path={listComponents.uploadFile.path}>
+          <UploadFile />
+        </Route>
+        <Route path={listComponents.datePicker.path}>
+          <ShowComponentToDates />
+        </Route>
+        <Route path={listComponents.barChart.path}>
+          <ShowComponentBarChart />
+        </Route>
+        <Route exact path="/">
+          <Redirect to={listComponents.showPaginateItems.path} />
+        </Route>
+      </Suspense>
+    </MoviesProvider>
   </section>
 );
 
