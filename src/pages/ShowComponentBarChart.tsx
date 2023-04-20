@@ -1,83 +1,146 @@
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import BarChart from "../components/BarChart";
-import { Box, Button, ButtonGroup, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import MainLayout from "../layout/MainLayout";
 import listComponents from "../constants/listComponents";
+import products, { Product, Products } from "../constants/products";
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-
-type typeDataKeyY = "uv" | "pv" | "amt";
+type typeDataKeyY = "stock" | "vendidos" | "total vendidos";
 
 const specificData = {
-  uv: {
+  vendidos: {
     fill: "#8884d8",
-    dataKeyY: "uv",
+    dataKeyY: "sold_quantity",
   },
-  pv: {
+  stock: {
     fill: "#82ca9d",
-    dataKeyY: "pv",
+    dataKeyY: "stock",
   },
-  amt: {
-    fill: "#77c878",
-    dataKeyY: "amt",
+  "total vendidos": {
+    fill: "#82c082",
+    dataKeyY: "total_sales",
   },
 };
 
 const ShowComponentBarChart = () => {
-  const [selectedDataKeyY, setSelectedDataKeyY] = useState<typeDataKeyY>("uv");
+  const [chartData, setChartData] = useState<Products>(products);
+  const [specificDataCurrent, setSpecificDataCurrent] =
+    useState<typeDataKeyY>("vendidos");
+  const [valueRadio, setValueRadio] = useState("");
 
-  const { dataKeyY, fill } = specificData[selectedDataKeyY];
+  const { dataKeyY, fill } = specificData[specificDataCurrent];
 
-  const handleChangeOfDataKeyY = (field: any) => {
-    setSelectedDataKeyY(field);
+  const dataFormatToArray: Product[] = useMemo(() => {
+    const dataFormated = Object.values(chartData);
+    let sortedData;
+    switch (valueRadio) {
+      case "major_to_minor":
+        sortedData = [...dataFormated].sort(
+          // @ts-ignore
+          (a, b) => b[dataKeyY] - a[dataKeyY]
+        );
+        return sortedData;
+      case "minor_to_major":
+        sortedData = [...dataFormated].sort(
+          // @ts-ignore
+          (a, b) => a[dataKeyY] - b[dataKeyY]
+        );
+        return sortedData;
+      case "alphabetically":
+        sortedData = [...dataFormated].sort((a, b) => {
+          if (a.name > b.name) {
+            return 1;
+          }
+          if (a.name < b.name) {
+            return -1;
+          }
+          return 0;
+        });
+        return sortedData;
+      default:
+        return dataFormated;
+    }
+  }, [chartData, dataKeyY, valueRadio]);
+
+  const updateSoldQuantity = useCallback(() => {
+    // Get a list of the keys of the products object
+    const keys = Object.keys(chartData);
+
+    // Select a random key from the list of keys
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    const newChartData = { ...chartData };
+    // Increment the sold quantity of the randomly selected product by one
+
+    const { price, sold_quantity } = newChartData[randomKey];
+    newChartData[randomKey].sold_quantity += 1;
+    newChartData[randomKey].total_sales = price * sold_quantity;
+    newChartData[randomKey].stock -= 1;
+
+    setChartData(newChartData);
+  }, [chartData]);
+
+  const handleChangeOfDataKeyY = (field: typeDataKeyY) => {
+    setSpecificDataCurrent(field);
   };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValueRadio((event.target as HTMLInputElement).value);
+  };
+
+  useEffect(() => {
+    // Call the updateSoldQuantity function every three seconds
+    const interval = setInterval(updateSoldQuantity, 3000);
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [updateSoldQuantity]);
 
   return (
     <MainLayout title={listComponents.barChart.title}>
-      <Grid container item spacing={2} direction="column" xs={12} sm={8} md={6}>
+      <Grid
+        container
+        item
+        spacing={2}
+        direction="column"
+        xs={12}
+        sm={12}
+        md={8}
+      >
+        <Grid item>
+          <Typography variant="h6">
+            Esta grafica se actualiza cada 3 segundos.
+          </Typography>
+        </Grid>
+        <Grid item>
+          <FormControl sx={{ m: 1 }} component="fieldset" variant="standard">
+            <FormLabel component="label">Ordenar de:</FormLabel>
+            <RadioGroup row onChange={handleChange} value={valueRadio}>
+              <FormControlLabel
+                control={<Radio value="major_to_minor" />}
+                label="Mayor a menor"
+              />
+              <FormControlLabel
+                control={<Radio value="minor_to_major" />}
+                label="Menor a mayor"
+              />
+              <FormControlLabel
+                control={<Radio value="alphabetically" />}
+                label="Alfabeticamente"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
         <Grid item container justifyContent="center">
           <ButtonGroup
             variant="contained"
@@ -86,10 +149,10 @@ const ShowComponentBarChart = () => {
             {Object.keys(specificData).map((label) => (
               <Button
                 key={`button-${label}`}
-                onClick={() => handleChangeOfDataKeyY(label)}
+                onClick={() => handleChangeOfDataKeyY(label as typeDataKeyY)}
                 sx={{
                   backgroundColor: (theme) =>
-                    label !== selectedDataKeyY
+                    label !== specificDataCurrent
                       ? ""
                       : theme.palette.primary.dark,
                 }}
@@ -100,7 +163,12 @@ const ShowComponentBarChart = () => {
           </ButtonGroup>
         </Grid>
         <Box width="100%" mt={2}>
-          <BarChart data={data} dataKey={dataKeyY} fill={fill} />
+          <BarChart
+            data={dataFormatToArray}
+            dataKeyY={dataKeyY}
+            fill={fill}
+            legendName={specificDataCurrent}
+          />
         </Box>
       </Grid>
     </MainLayout>
