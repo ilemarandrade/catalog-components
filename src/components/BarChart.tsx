@@ -10,7 +10,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const CustomTooltip = ({ active, payload, label, legendName }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: { [key: string]: number | string }[];
+  label?: string;
+  legendName: string;
+}
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+  legendName,
+}: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const isTotalSales = payload[0].name === "total_sales";
     return (
@@ -37,8 +49,9 @@ const CustomTooltip = ({ active, payload, label, legendName }: any) => {
 
   return null;
 };
+
 interface IBarChart {
-  data: any;
+  data: unknown[];
   dataKeyY: string;
   fill: string;
   legendName: string;
